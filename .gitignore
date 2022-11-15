@@ -1,0 +1,4 @@
+__pycache__/
+env/
+dump.rdb
+db.sqlite3

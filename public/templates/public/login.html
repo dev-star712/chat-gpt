@@ -1,0 +1,13 @@
+{% extends 'public/base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div id="message">
+            <p></p>
+        </div>
+        {% load rest_framework %}
+            {% csrf_token %}
+            {% render_form serializer template_pack='rest_framework/vertical' %}
+            <button type="submit" class="btn btn-outline-dark mt-2" onclick="login_user();">Login</button>
+    </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+#chat {
+    position: relative;
+    overflow: auto;
+    max-height: 80%;
+    max-width: 80%;
+}
+.author {
+    margin-bottom: -10px;
+}
+#text-box {
+    position: fixed;
+    left: 0;
+    bottom:10;
+}
+.text-message {
+    border-radius: 5px;
+    height: 45px;
+    width:350px;
+    border-color: black;
+    margin-left: 5px;
+    text-align: center;
+}
+.submit-btn {
+    border-radius: 5px;
+    background-color: transparent;
+    height: 45px;
+    border-color: black;
+}
+@media only screen and (max-width: 600px) {
+    .text-message {
+        width: 220px;
+    }
+}
