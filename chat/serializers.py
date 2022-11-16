@@ -8,6 +8,7 @@ class RoomSerializer(serializers.ModelSerializer):
         model = Room 
         fields = ("id","room_name","room_code")
         lookup_field = "room_code"
+        extra_kwargs = {'room_code':{'read_only':True}}
 
 class ChatSerializer(serializers.ModelSerializer):
     from_user = serializers.CharField(source="from_user.username")
