@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
-
+    username = serializers.CharField(help_text=False)
     class Meta:
         model = User 
         fields = ('username','password','first_name','last_name','email')
@@ -27,8 +27,6 @@ class LoginSerializer(serializers.Serializer):
         username = attrs.get('username')
         password = attrs.get('password')
 
-
-        user = User.objects.get(username=username)
         user = authenticate(username=username, password=password)
         if user:
             return user 
