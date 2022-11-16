@@ -9,7 +9,7 @@ urlpatterns = [
     path('', public.views.index_page),
     path('login', public.views.login_view, name='login'),
     path('register', public.views.register_view, name='register'),
-    path('chat/', include('chat.urls')),
+    path('chat/', include('chat.urls'), name='chat'),
     path('api/user/', include('public.api_urls')),
     path('api/chat/', include('chat.api_urls')),
     path('admin/', admin.site.urls)
