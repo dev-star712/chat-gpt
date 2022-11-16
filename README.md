@@ -3,17 +3,25 @@ Group chat app built with Django, django-channels, and rest_framework
 
 ## Table Of Contents
 
-- [Installation](#installation)
-- [Setup](#setup)
-- [Features](#features)
-- [Screenshots](#screenshot)
+- [Chat App](#chat-app)
+  - [Table Of Contents](#table-of-contents)
+    - [Installation](#installation)
+    - [Setup](#setup)
+    - [Features](#features)
 
 ### Installation
 - Clone this repository https://github.com/gibran-abdillah/chat-app
+```sh
+git clone https://github.com/gibran-abdillah/chat-app
+cd chat-app
+```
 - Activate the local environment
+```sh
+virtualenv env
+source env/bin/activate
+```
 - Install the requirements
 ```sh
-
 pip3 install -r requirements.txt
 ```
 - Migrate the database
