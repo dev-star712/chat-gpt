@@ -20,14 +20,24 @@
     margin-left: 5px;
     text-align: center;
 }
+.input-room {
+    height: 38px;
+}
 .submit-btn {
     border-radius: 5px;
     background-color: transparent;
     height: 45px;
     border-color: black;
 }
+.form-group  {
+    margin-left: 20px;
+    max-width: 70%;
+}
 @media only screen and (max-width: 600px) {
     .text-message {
         width: 220px;
+    }
+    .form-group {
+        max-width: 70%;
     }
 }
