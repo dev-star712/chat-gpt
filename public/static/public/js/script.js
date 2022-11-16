@@ -62,7 +62,8 @@ function login_user() {
     let data = get_fields()
     post_data(login_url, data).then((response) => {
         if(response.success) {
-            create_response('Logged In!')
+            create_response('Logged in! Redirecting...')
+            window.location.pathname = '/'
         }else{
             var response = response ? response.message : response.detail
             create_response(response, failed=true)

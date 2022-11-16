@@ -8,6 +8,9 @@
         {% load rest_framework %}
             {% csrf_token %}
             {% render_form serializer template_pack='rest_framework/vertical' %}
+            <p>
+                <a href="{% url 'register' %}">Don't have acoount?</a>
+            </p>
             <button type="submit" class="btn btn-outline-dark mt-2" onclick="login_user();">Login</button>
     </div>
 {% endblock %}
