@@ -1,0 +1,25 @@
+{% extends 'public/base.html' %}
+{% load static %}
+{% block additional_head %}
+    <link rel="stylesheet" href="{% static 'chat/css/styles.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+{% if request.user.is_authenticated %}
+    <div id="message"></div>
+
+    <div class="form-group">
+        <label for="room_code" class="mb-2">Room name :</label>
+        <p>
+            <input type="text" id="room_code" class="input-room" name="room_name">
+            <button type="submit" class="btn btn-outline-dark" id="create_room" onclick="make_room()">Create!</button>
+        </p>
+    </div>
+{% load static %}
+
+<script src="{% static 'chat/js/script.js' %}" type="text/javascript"></script>
+{% else %}
+<p>Please <a href="{% url 'login' %}">Login</a> first to create a room</p>
+{% endif %}
+
+{% endblock %}
