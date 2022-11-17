@@ -11,6 +11,11 @@ class UserSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {k: {'write_only':True} for k in write_only_fields}
     
+    def validate_username(self, attrs):
+        if User.objects.filter(username=attrs).first():
+            raise serializers.ValidationError("username already registered")
+        return attrs 
+
     def create(self, validated_data: dict ):
         user = User.objects.create_user(**validated_data)
         return user
