@@ -1,13 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User 
-
 import random, string 
+from django.conf import settings
 
 class Room(models.Model):
+    ROOM_VISIBILITY = (
+        (0, 'only user that know room code can join'),
+        (1, 'Anyone can join, room will shown in chat index')
+    )
+
     room_code = models.CharField(max_length=8)
     room_name = models.CharField(max_length=255)
+    is_public = models.IntegerField(choices=ROOM_VISIBILITY, default=1)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    
+
     def save(self, *args, **kwargs):
         self.room_code = self.__generate_code()
         super().save(*args, **kwargs)
@@ -17,7 +23,18 @@ class Room(models.Model):
 
     def __generate_code(self):
         return ''.join(random.choice(string.ascii_lowercase) for _ in range(8))
-    
+
+class Visitor(models.Model):
+    user_agent = models.TextField(null=True)
+    ip_addr = models.GenericIPAddressField()
+
+    def save(self, *args, **kwargs):
+        if self.user_agent in settings.USER_AGENT_BLACKLIST:
+            return None 
+        return super().save(*args, **kwargs)
+
+    def __repr__(self):
+        return '<user_agent:{}'.format(self.user_agent)    
 
 class Chat(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)

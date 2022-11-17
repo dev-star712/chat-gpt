@@ -46,7 +46,8 @@ notif_socket.onopen = function(n) {
     notif_socket.send(
         JSON.stringify(
             {
-                "room":room_name
+                "room":room_name,
+                "joined":true
             }
         )
     )
