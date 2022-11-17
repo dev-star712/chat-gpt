@@ -5,17 +5,35 @@
     <link rel="stylesheet" href="{% static 'chat/css/styles.css' %}">
 {% endblock %}
 {% block content %}
+
 <div class="container mt-5">
     <div id="message"></div>
     <div class="form-group">
+        <input type="hidden" id="ip_addr" value="{{ip_addr}}">
+        <input type="hidden" id="user_agent" value="{{user_agent}}">
         <label for="room_code" class="mb-2">Room Code :</label>
         <p>
             <input type="text" id="room_code" class="input-room">
             <button type="submit" class="btn btn-outline-dark" id="go">Check</button>
         </p>
+        <p>You can <a href="{% url 'chat:create_room' %}" class="text-danger">make your own room!</a></p>
     </div>
-    <p>You can <a href="{% url 'chat:create_room' %}" class="text-danger">make your own room!</a></p>
+    <div class="d-flex justify-content-center mb-2">
+        <h4>Public Rooms</h4>
+    </div>
+
+    <div class="row" id="card-row">
+        
+    </div>
+    <div class="d-flex justify-content-center mt-2" id="button-position">
+    
+    </div>
+    
+    <div class="d-flex justify-content-center mt-5">
+        <p>Past Visitors : </p>
+        <p id="total_visitor">S</p>
+    </div>
 </div>
 
     <script type="text/javascript" src="{% static 'chat/js/script.js' %}"></script>
-{% endblock %}
+{% endblock %} 
