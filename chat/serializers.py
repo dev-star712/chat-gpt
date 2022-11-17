@@ -6,7 +6,7 @@ class RoomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Room 
-        fields = ("id","room_name","room_code")
+        fields = "__all__"
         lookup_field = "room_code"
         extra_kwargs = {'room_code':{'read_only':True}}
 
