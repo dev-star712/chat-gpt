@@ -124,6 +124,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STAITC_ROOT = 'static/'
 ASGI_APPLICATION = "app.asgi.application"
+USER_AGENT_BLACKLIST = ['google','bing','yahoo','duckduckgo']
 
 CHANNEL_LAYERS = {
         "default":{
@@ -132,6 +133,11 @@ CHANNEL_LAYERS = {
                 "hosts":[('localhost', 6379)],
             }
         },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS':'app.pagination.CustomPagination',
+    'PAGE_SIZE':20
 }
 
 # Default primary key field type
