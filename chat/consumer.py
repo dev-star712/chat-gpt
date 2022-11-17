@@ -1,7 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from .models import Chat , Room 
-from django.contrib.auth.models import User 
+from .models import Chat , Room , Visitor
+from django.contrib.auth.models import User
 
 import json, html
     
@@ -85,16 +85,37 @@ class NotifConsumer(AsyncWebsocketConsumer):
         await self.accept()
     
     async def receive(self, text_data=None, bytes_data=None):
-        json_text = json.loads(text_data)
+        data_json = json.loads(text_data)
         
+        ip_addr = data_json.get('ip_address')
+        user_agent = data_json.get('user_agent')
+
+        if all([ip_addr, user_agent]):
+
+            await self.save_visitor(ip_addr=ip_addr, user_agent=user_agent)
+        
+        total_visitor = await self.total_visitor()
+
         await self.channel_layer.group_send(
             'notif_chat',
             {
                 'type':'send.notif',
-                'room':json_text.get('room')
+                'total_visitor':total_visitor
             }
         )
     
     async def send_notif(self, text_data):
 
         await self.send(text_data=json.dumps(text_data))
+    
+    @database_sync_to_async
+    def total_visitor(self):
+        return Visitor.objects.all().count()
+    
+    @database_sync_to_async
+    def save_visitor(self, ip_addr, user_agent):
+        if Visitor.objects.filter(ip_addr=ip_addr).first():
+            return None
+        v = Visitor(ip_addr=ip_addr, user_agent=user_agent)
+        v.save()
+        return v
