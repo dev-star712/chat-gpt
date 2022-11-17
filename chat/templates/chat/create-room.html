@@ -12,8 +12,17 @@
         <label for="room_code" class="mb-2">Room name :</label>
         <p>
             <input type="text" id="room_code" class="input-room" name="room_name">
-            <button type="submit" class="btn btn-outline-dark" id="create_room" onclick="make_room()">Create!</button>
         </p>
+    </div>
+    <div class="form-check">
+        <label for="room_status">Room Status</label>
+        <select name="is_public" class="form-control" id="room_status">
+            <option value="1">Anyone can Join</option>
+            <option value="0">Only person that know room code can join</option>
+        </select>
+    </div>
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-outline-dark" id="create_room" onclick="make_room()">Create!</button>
     </div>
 {% load static %}
 
