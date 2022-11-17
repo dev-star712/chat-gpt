@@ -23,8 +23,7 @@ def login_api(request):
         user = User.objects.get(username=serializer.validated_data)
         login(request, user)
         return Response({"success":True})
-    else:
-        print(serializer.errors)
+
     return Response({"success":False, "message":"Invalid username/password!"})
 
 @api_view(['POST'])
