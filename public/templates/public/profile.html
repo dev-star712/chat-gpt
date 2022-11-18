@@ -1,0 +1,39 @@
+{% extends 'public/base.html' %}
+
+
+{% block additional_head %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'chat/css/styles.css' %}">
+{% endblock %}
+    {% block content %}
+    <div class="mt-5 ml-4">
+        <div id="message"></div>
+        <div class="form-group mb-3">
+            <h4>Update Profile</h4>
+        </div>
+        {% for field in form %}
+            <div class="form-group">
+                {{field.label_tag}}
+                {{field}}
+            </div>
+        {% endfor %}
+        <div class="form-group mt-2">
+            <button type="submit" class="btn btn-outline-dark mt-2" onclick="update_user()">Update Profile</button> 
+        </div>
+        <div class="mt-5">
+            <div class="form-group mb-3">
+                <h4>Change Password</h4>
+            </div>
+            {% for field in password_form %}
+                    <div class="form-group">
+                        {{field.label_tag}}
+                        {{field}}
+                    </div>
+            {% endfor %}
+            <div class="form-group mt-2">
+                <button type="submit" class="btn btn-outline-dark mt-2" onclick="change_password()">Change Password</button>
+            </div>
+        </div>
+    {% endblock %}
+</div>
