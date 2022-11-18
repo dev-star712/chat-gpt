@@ -32,6 +32,14 @@ async function post_data(url, data) {
     return response.json()
 }
 
+function update_user() {
+    var data = get_fields()
+    var z = post_data('/api/user/profile', data)
+    z.then((r) => {
+        console.log(r)
+    })
+}
+
 function create_response(text, failed=false) {
     var div = document.createElement("div")
     if(failed){
@@ -63,7 +71,7 @@ function login_user() {
     post_data(login_url, data).then((response) => {
         if(response.success) {
             create_response('Logged in! Redirecting...')
-            window.location.pathname = '/'
+            window.location.pathname = '/chat/'
         }else{
             var response = response ? response.message : response.detail
             create_response(response, failed=true)
