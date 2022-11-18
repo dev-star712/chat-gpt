@@ -113,7 +113,7 @@ if(go_btn) {
     show_room(response_get_room)
     
     go_btn.onclick = function() {
-        message_id.innerHTML = ""
+        clean_message()
         var room_code = document.getElementById("room_code")
         if(room_code.value.length == 0) {
             return 0
