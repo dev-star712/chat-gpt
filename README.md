@@ -55,6 +55,9 @@ You can run the server by using command
 - Messages from not logged in user will no saved to database
 
 ### Screenshots
+Chat 
+![Screenshot_20221119_063958](https://user-images.githubusercontent.com/70421698/202820949-720ab5eb-7576-48a1-afe0-62124a40fa0d.png)
+
 Room Chat
 ![Screenshot_20221117_055340](https://user-images.githubusercontent.com/70421698/202428160-357fb7fe-0a11-4e56-9621-78257ff5428c.png)
 
