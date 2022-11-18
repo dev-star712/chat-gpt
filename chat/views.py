@@ -20,9 +20,8 @@ class RoomViewSets(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         
-        serializer.creator = self.request.user
-        serializer.save()
-
+        serializer.save(creator=self.request.user)
+        
         return serializer
     
     def create(self, request, *args, **kwargs):
@@ -45,18 +44,6 @@ class RoomViewSets(viewsets.ModelViewSet):
         
         serializer = serializers.ChatSerializer(queryset, many=True)
         return Response(serializer.data)
-
-@decorators.api_view(['GET'])
-def getMe(request):
-    ip_addr = request.META.get('HTTP_X_FORWADED_FOR') or request.META.get('REMOTE_ADDR')
-    user_agent = request.META.get('HTTP_USER_AGENT')
-
-    return Response(
-        {
-            'ip_address':ip_addr,
-            'user_agent':user_agent
-        }
-    )
 
 def profile(request):
     serializer = public_serializer.UserSerializer
