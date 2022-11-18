@@ -7,7 +7,7 @@ const websocket = new WebSocket(
     'ws://' + window.location.host + '/ws/notif/' 
 )
 async function getMe() {
-    var response = await fetch('/chat/getMe')
+    var response = await fetch('/api/user/getMe')
     return response.json()
 }
 
