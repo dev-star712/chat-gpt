@@ -56,16 +56,14 @@ You can run the server by using command
 
 ### Screenshots
 Room Chat
-![chat](https://user-images.githubusercontent.com/70421698/202155793-8aaba456-1535-4eb7-bdfe-a97fc699697f.png)
+![Screenshot_20221117_055340](https://user-images.githubusercontent.com/70421698/202428160-357fb7fe-0a11-4e56-9621-78257ff5428c.png)
 
 Create Room
-![create-room](https://user-images.githubusercontent.com/70421698/202155806-2e96a929-119c-411e-bf20-d81bcfefd192.png)
+
+![Screenshot_20221117_055436](https://user-images.githubusercontent.com/70421698/202428150-b9d92bd2-07b9-44d7-8db1-3256103a5266.png)
 
 Login Page
 ![login](https://user-images.githubusercontent.com/70421698/202155809-e9392aaf-5651-487b-85b5-da8940fee6ba.png)
 
 Register Page
 ![register](https://user-images.githubusercontent.com/70421698/202155814-c908c8c7-ee36-467c-b5c8-d45803a34b0b.png)
-
-Room index
-![room](https://user-images.githubusercontent.com/70421698/202155818-24e0f40a-cfa5-4f67-a15e-56fe30641a06.png)
