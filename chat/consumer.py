@@ -34,6 +34,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
     
     async def disconnect(self, code):
+        await self.channel_layer.group_send(
+            self.group_room_code,
+            {
+                "type":"chat.message",
+                "message":"Leave the room",
+                "sender":self.sender
+            }
+        )
         await self.channel_layer.group_discard(self.group_room_code, self.channel_name)
     
     async def receive(self, text_data=None, bytes_data=None):
