@@ -3,10 +3,11 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
-import public.views
+import public.views, chat.views
 
 urlpatterns = [
     path('', public.views.index_page),
+    path('profile', public.views.profile),
     path('login', public.views.login_view, name='login'),
     path('register', public.views.register_view, name='register'),
     path('chat/', include('chat.urls'), name='chat'),

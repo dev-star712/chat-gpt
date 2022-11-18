@@ -20,6 +20,9 @@ class Room(models.Model):
     
     def __repr__(self):
         return self.room_name
+    
+    def __str__(self):
+        return self.room_name
 
     def __generate_code(self):
         return ''.join(random.choice(string.ascii_lowercase) for _ in range(8))
