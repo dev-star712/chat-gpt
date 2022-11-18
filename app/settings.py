@@ -137,7 +137,7 @@ CHANNEL_LAYERS = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':'app.pagination.CustomPagination',
-    'PAGE_SIZE':20
+    'PAGE_SIZE':9
 }
 
 # Default primary key field type
