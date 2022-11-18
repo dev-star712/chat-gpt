@@ -32,22 +32,16 @@ async function post_data(url, data) {
     return response.json()
 }
 
-function update_user() {
-    var data = get_fields()
-    var z = post_data('/api/user/profile', data)
-    z.then((r) => {
-        console.log(r)
-    })
-}
+
 
 function create_response(text, failed=false) {
     var div = document.createElement("div")
     if(failed){
         div.className = "alert alert-danger"
-        div.innerHTML = text 
+        div.innerHTML = "<strong>Failed!</strong> " + text 
     }else{
         div.className = "alert alert-success"
-        div.innerHTML = text
+        div.innerHTML = "<strong>Success!</strong> " + text 
     }
     
 
@@ -78,12 +72,12 @@ function login_user() {
         }
     }
     )
-    message_id.innerHTML = ""
+    clean_message()
 
 }
 
 function register_user() {
-    message_id.innerHTML = ""
+    clean_message()
     let data = get_fields()
     post_data(register_url, data).then((response) => {
         if(response.success) { 
@@ -105,4 +99,43 @@ function register_user() {
         }
 
     )
+}
+function clean_message() {
+    message_id.innerHTML = ''
+}
+function change_password() {
+    clean_message()
+    var data = {}
+    var input_fields = document.querySelectorAll("input")
+    for(var i in input_fields) {
+        if(input_fields[i].type == 'password' && input_fields[i].value.length != 0) {
+            data[input_fields[i].name] = input_fields[i].value
+        }
+    }
+    var response = post_data('/api/user/change-password', data=data)
+    response.then((r) => {
+        if(r.success) {
+            create_response("Password Changed!", failed=false)
+        }else{
+            for(i in r) {
+                create_response(r[i][0].message, failed=true)
+            }
+        }
+    })
+}
+function update_user() {
+    var data = get_fields()
+    var z = post_data('/api/user/profile', data)
+    z.then((r) => {
+        if(r.success) {
+            create_response("Changed!")
+        }else{
+            if(r.length != 0) {
+                for(var i in r) {
+                    //console.log(r[i][0].message)
+                    create_response(r[i][0].message, failed=true)
+                }
+            }
+        }
+    })
 }

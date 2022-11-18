@@ -10,5 +10,6 @@ urlpatterns = [
     path('login', views.login_api),
     path('getMe', views.getMe, name='get_me'),
     path('my-room', views.my_room, name='my_room'),
-    path('profile', views.UserViewSets.as_view({'post':'update'}), name='profile_api')
+    path('profile', views.profile_api, name='profile_api'),
+    path('change-password', views.change_password_api, name='change_password')
 ]
