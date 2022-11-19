@@ -26,30 +26,13 @@
             <div id="form-chat">
                 <div class="input">
                     <input type="text" id="message" placeholder="Ketik Pesan..." autocomplete="off" autofocus="on" required>
-                    <button onclick="send_message()" type="submit">
+                    <button onclick="send_message()" type="submit" id="send-message">
                         <i class="fa fa-paper-plane"></i>
                     </button>
                 </div>
             </form>
         </div>
-        <div class="menu">
-            <div class="menu-content">
-                <ul>
-                    <li>
-                        <h4>Menu</h4>
-                    </li>
-                    
-                    <li id="fullscreen">
-                        <i class="fa fa-arrows-alt"></i>
-                        <p>Full Screen</p>
-                    </li>
-                    <li id="logout">
-                        <i class="fa fa-sign-out"></i>
-                        <p>LogOut</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
+       
     </div>
     <script>
         const current_user = "{{request.user}}"
