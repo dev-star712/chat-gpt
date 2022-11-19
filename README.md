@@ -55,18 +55,23 @@ You can run the server by using command
 - Messages from not logged in user will no saved to database
 
 ### Screenshots
-Chat 
-![Screenshot_20221119_063958](https://user-images.githubusercontent.com/70421698/202820949-720ab5eb-7576-48a1-afe0-62124a40fa0d.png)
+Chat Section  
+
+Chat template i got from https://github.com/pamekasancode/webchat-js/tree/master (thx a lot for this guy)
+
+![Screenshot_20221119_013220](https://user-images.githubusercontent.com/70421698/202837981-724bcbc2-7374-4cf8-af66-8c76b2f1dd70.png)
+
 
 Room Chat
 ![Screenshot_20221117_055340](https://user-images.githubusercontent.com/70421698/202428160-357fb7fe-0a11-4e56-9621-78257ff5428c.png)
 
 Create Room
-
 ![Screenshot_20221117_055436](https://user-images.githubusercontent.com/70421698/202428150-b9d92bd2-07b9-44d7-8db1-3256103a5266.png)
 
-Login Page
+
+Login Page  
 ![login](https://user-images.githubusercontent.com/70421698/202155809-e9392aaf-5651-487b-85b5-da8940fee6ba.png)
 
-Register Page
+
+Register Page  
 ![register](https://user-images.githubusercontent.com/70421698/202155814-c908c8c7-ee36-467c-b5c8-d45803a34b0b.png)
