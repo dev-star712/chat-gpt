@@ -1,17 +1,15 @@
 const split_path = window.location.pathname.split('/')
 const room_name = split_path[split_path.length - 1 ]
-
+const chatSection = document.getElementById("chat-content")
 const chatSocket = new WebSocket(
     'ws://' + window.location.host + '/ws/chat/' + room_name +'/'
 )
-
+const chat_div = document.querySelector(".chat")
+const menu = document.querySelector(".menu")
+const btnMenu = document.getElementById("btn-menu")
 const notif_socket = new WebSocket(
     'ws://' + window.location.host + '/ws/notif/'
 )
-
-const chat_div = document.getElementById("chat")
-
-const submit_btn = document.getElementById("submit")
 
 const room_api_url = '/api/chat/room/data/' + room_name
 
@@ -20,25 +18,6 @@ async function get_chats() {
     return response.json()
 }
 
-function create_chat_box(message, sender='Anon') {
-    var div_chat_box = document.createElement("div")
-    div_chat_box.className = "chat-box"
-
-    var author = document.createElement("h4")
-    author.className = "author"
-    author.innerHTML = sender
-
-    var p = document.createElement("p")
-    p.innerHTML= message
-
-    div_chat_box.appendChild(author)
-    div_chat_box.appendChild(p)
-
-    chat_div.appendChild(div_chat_box)
-
-    chat_div.scrollTop = chat_div.scrollHeight
-
-}
 
 
 notif_socket.onopen = function(n) {
@@ -55,35 +34,57 @@ notif_socket.onopen = function(n) {
 
 chatSocket.onopen = function() {
     var chat_data = get_chats()
-    chat_data.then(
-        (response) => {
-        if(response.length !== 0) {
-            for(i of response) {
-                author = i.from_user 
-                message = i.text 
-                create_chat_box(message, author)
-                }
-            }
+    chat_data.then((r)=>{
+        for(var i in r) {
+            create_chat_box(r[i].text, r[i].from_user)
         }
-    )
+    })
+}
+function create_chat_box(message, sender) {
+    if(sender == current_user) {
+        var element = `
+        <div class="message" id="me">
+            <div>
+                <h4>${sender}</h4>
+                <p>${message}</p>
+            </div>
+        </div>
+        `
+    }else{ 
+        var element = `
+        <div class="message">
+            <div>
+                <h4>${sender}</h4>
+                <p>${message}</p>
+            </div>
+        </div>`
+    }
+    chatSection.innerHTML += element
+    scroll_bottom()
+
+}
+
+function scroll_bottom() {
+    window.scrollTo(0, chat_div.scrollHeight)
+}
+
+function send_message() {
+    var message = document.getElementById("message")
+    chatSocket.send(JSON.stringify({"message":message.value}))
+    message.value = ''
 }
 chatSocket.onerror = function(e) {
     console.log(e);
 }
 chatSocket.onmessage = function(m) {
     var json_parser = JSON.parse(m.data)
-    create_chat_box(json_parser['message'], json_parser['sender'])
+    create_chat_box(json_parser.message, json_parser.sender)
 }
-
-submit_btn.onclick = function(e) {
-    var msg = document.getElementById("msg")
-    if(msg.value.length < 6) {
-        msg.value = ''
-        return false;
+function openMenu() {
+    menu.classList.toggle("active")
+    if(menu.classList.contains("active")) {
+      btnMenu.setAttribute("class", "fa fa-times")    
+    } else {
+      btnMenu.setAttribute("class", "fa fa-bars")    
     }
-    var data_json = JSON.stringify({
-        "message":msg.value
-    })
-    chatSocket.send(data_json)
-    msg.value = ''
-}
+  }

@@ -2,18 +2,58 @@
     <head>
         <title>Chat App with Django-channels!</title>
         {% load static %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{% static 'chat/css/styles.css' %}">
         <meta name="viewport" content="user-scalable=no, width=device-width">
     </head>
 <body>
-    <div id="chat" class="control">
-        
+    <div class="wrapper">
+        <div class="header">
+            <div class="container">
+                <div class="header-content">
+                    <h2>Room Chat</h2>
+                </div>
+            </div>
+        </div>
+        <div class="chat">
+            <div class="container">
+                <div class="chat-content" id="chat-content">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <div id="form-chat">
+                <div class="input">
+                    <input type="text" id="message" placeholder="Ketik Pesan..." autocomplete="off" autofocus="on" required>
+                    <button onclick="send_message()" type="submit">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="menu">
+            <div class="menu-content">
+                <ul>
+                    <li>
+                        <h4>Menu</h4>
+                    </li>
+                    
+                    <li id="fullscreen">
+                        <i class="fa fa-arrows-alt"></i>
+                        <p>Full Screen</p>
+                    </li>
+                    <li id="logout">
+                        <i class="fa fa-sign-out"></i>
+                        <p>LogOut</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-
-    <div id="text-box">
-        <input type="text" placeholder="message" id="msg" class="text-message">
-        <button type="submit" class="submit-btn" id="submit">>>></button>
-    </div>
+    <script>
+        const current_user = "{{request.user}}"
+    </script>
 
     
     

@@ -4,40 +4,186 @@
     max-height: 80%;
     max-width: 80%;
 }
-.author {
-    margin-bottom: -10px;
+.wrapper {
+    max-width: 600px;
+    min-height: 100vh;
+    margin: auto;
+    background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(https://cdn.wallpapersafari.com/27/32/jt4AoG.jpg);
+    background-attachment: fixed;
+    position: relative;
 }
-#text-box {
+
+.container {
+    padding: 0 1rem;
+}
+
+.menu {
     position: fixed;
-    left: 0;
-    bottom:10;
+    z-index: 15;
+    top: 60px;
+    background-color: #fff;
+    width: 200px;
+    box-shadow: 2px 2px 12px #eee;    
+    display: none;
 }
-.text-message {
-    border-radius: 5px;
-    height: 45px;
-    width:350px;
-    border-color: black;
-    margin-left: 5px;
-    text-align: center;
+
+@keyframes menu {
+    0%{transform: translateY(-100%);}
+    100%{transform: translateY(0);}
 }
-.input-room {
-    height: 38px;
+
+.menu.active {
+    display: block;
+    animation: menu 1s;
 }
-.submit-btn {
-    border-radius: 5px;
-    background-color: transparent;
-    height: 45px;
-    border-color: black;
+
+.menu .menu-content {
+    padding: 1.5rem 1rem;
+    box-sizing: border-box;
 }
-.form-group  {
-    margin-left: 20px;
-    max-width: 70%;
+
+.menu .menu-content ul {
+    list-style: none;
 }
-@media only screen and (max-width: 600px) {
-    .text-message {
-        width: 220px;
+
+.menu .menu-content ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.menu .menu-content ul li:hover {
+    background-color: #f3f3f3;
+}
+
+.header {
+    position: sticky;
+    z-index: 20;
+    top: 0;
+    width: 100%;
+    padding: 20px 0;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-bottom: 2px solid #eee;
+}
+
+.header .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .header-content h2 {
+    font-size: 20px;
+}
+
+.header .header-content i {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.chat {
+    padding: 1rem 0 4rem 0;
+}
+
+.chat .chat-content .message {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.chat .chat-content #me {
+    justify-content: flex-end;
+} 
+
+.chat .chat-content .message div {
+    background-color: #f3f3f3;
+    max-width: 420px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    color: #424242;
+}
+
+.chat .chat-content #me div {
+    background-color: #13a0ff;
+    color: #fff;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.chat .chat-content .message div h4 {
+    font-size: var(--text-medium);
+    margin-bottom: 5px;
+}
+
+.chat .chat-content .message div p {
+    font-size: var(--text-small);
+}
+
+.chat .chat-content .message div p:nth-child(3) {
+    text-align: right;
+    font-size: var(--text-x-small);
+}
+
+.chat-input {
+    position: fixed;
+    max-width: 600px;
+    width: 100%;
+    bottom: 0;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-top: 2px solid #eee;
+}
+
+.chat-input .input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-input .input input {
+    width: 100%;
+    background-color: #f3f3f3;
+    border: none;
+    outline: none;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    margin-right: 20px;
+    border-radius: 20px;
+}
+
+.chat-input .input button {
+    padding: 0.8rem;
+    border-radius: 100%;
+    background-color: #13a0ff;
+    border: none;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-input .input i {
+    color: #fff;
+    font-size: 15px;
+}
+
+@media (max-width: 480px) {
+    :root {
+        --text-medium: 15px;
+        --text-small: 13px;
+        --text-x-small: 11px;
     }
-    .form-group {
-        max-width: 70%;
+    
+    .chat .chat-content .message div {
+        max-width: 300px;
     }
 }
