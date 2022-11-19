@@ -75,6 +75,14 @@ function login_user() {
     clean_message()
 
 }
+function clean_inputs() { 
+    var data = document.querySelectorAll("input")
+    for(i in data){
+        if(data[i].type !== 'hidden') {
+            data[i].value = ''
+        }
+    }
+}
 
 function register_user() {
     clean_message()
@@ -82,6 +90,7 @@ function register_user() {
     post_data(register_url, data).then((response) => {
         if(response.success) { 
             create_response('Registered, you can login now')
+            clean_inputs()
         }else{
             for(i in response) {
                 var raw_response = response[i][0]
@@ -99,6 +108,7 @@ function register_user() {
         }
 
     )
+
 }
 function clean_message() {
     message_id.innerHTML = ''
