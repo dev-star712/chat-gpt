@@ -31,35 +31,6 @@
     0%{transform: translateY(-100%);}
     100%{transform: translateY(0);}
 }
-
-.menu.active {
-    display: block;
-    animation: menu 1s;
-}
-
-.menu .menu-content {
-    padding: 1.5rem 1rem;
-    box-sizing: border-box;
-}
-
-.menu .menu-content ul {
-    list-style: none;
-}
-
-.menu .menu-content ul li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-
-.menu .menu-content ul li:hover {
-    background-color: #f3f3f3;
-}
-
 .header {
     position: sticky;
     z-index: 20;

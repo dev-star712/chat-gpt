@@ -6,13 +6,22 @@ const chatSocket = new WebSocket(
 )
 const chat_div = document.querySelector(".chat")
 const menu = document.querySelector(".menu")
-const btnMenu = document.getElementById("btn-menu")
+const btnMessage = document.getElementById("send-message")
 const notif_socket = new WebSocket(
     'ws://' + window.location.host + '/ws/notif/'
 )
+const message = document.getElementById("message")
 
 const room_api_url = '/api/chat/room/data/' + room_name
 
+message.addEventListener("keypress", function(ev) {
+    if(ev.key == 'Enter') {
+        ev.preventDefault()
+        if(message.value.length !== 0){
+            btnMessage.click()
+        }
+    }
+})
 async function get_chats() {
     var response = await fetch(room_api_url)
     return response.json()
@@ -69,7 +78,7 @@ function scroll_bottom() {
 }
 
 function send_message() {
-    var message = document.getElementById("message")
+
     chatSocket.send(JSON.stringify({"message":message.value}))
     message.value = ''
 }
@@ -80,11 +89,3 @@ chatSocket.onmessage = function(m) {
     var json_parser = JSON.parse(m.data)
     create_chat_box(json_parser.message, json_parser.sender)
 }
-function openMenu() {
-    menu.classList.toggle("active")
-    if(menu.classList.contains("active")) {
-      btnMenu.setAttribute("class", "fa fa-times")    
-    } else {
-      btnMenu.setAttribute("class", "fa fa-bars")    
-    }
-  }
