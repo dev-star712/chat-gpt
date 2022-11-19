@@ -118,14 +118,13 @@ if(go_btn) {
         if(room_code.value.length == 0) {
             return 0
         }
-        room_code.value = ''
         var response = check_room(room_code.value)
         response.then((r) => {
             if(r == 404) {
                 create_response("Room Not found!", failed=true)
             }
             else if(r == 200) {
-                create_response("yeah, you got it!")
+                window.location.href = '/chat/room/' + room_code.value
             }
             else {
                 create_response("Invalid response!", failed=true)
