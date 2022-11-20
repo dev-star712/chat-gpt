@@ -51,6 +51,7 @@ You can run the server by using command
 ### Features
 - Login and Register
 - Any logged in user can create a room
+- Authenticated user can generate new room code, and delete their own room
 - Messages saved to database
 - Messages from not logged in user will no saved to database
 
@@ -60,6 +61,10 @@ Chat Section
 Chat template i got from https://github.com/pamekasancode/webchat-js/tree/master (thx a lot for this guy)
 
 ![Screenshot_20221119_013220](https://user-images.githubusercontent.com/70421698/202837981-724bcbc2-7374-4cf8-af66-8c76b2f1dd70.png)
+
+
+My Room page 
+![Screenshot_20221120_102733](https://user-images.githubusercontent.com/70421698/202881318-d9425f57-71e6-4359-b7e1-6309f02a22f1.png)
 
 
 Room Chat
