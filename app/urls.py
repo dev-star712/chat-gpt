@@ -7,9 +7,10 @@ import public.views, chat.views
 
 urlpatterns = [
     path('', public.views.index_page),
-    path('profile', public.views.profile),
+    path('profile', public.views.profile, name='profile'),
     path('login', public.views.login_view, name='login'),
     path('register', public.views.register_view, name='register'),
+    path('profile/my-room', public.views.my_room, name='my_room'),
     path('chat/', include('chat.urls'), name='chat'),
     path('api/user/', include('public.api_urls')),
     path('api/chat/', include('chat.api_urls')),

@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import login, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 
@@ -85,6 +84,29 @@ def getMe(request):
 @api_view(['GET'])
 @login_required
 def my_room(request):
+    return render(request, 'public/my-room.html')
+
+@api_view(['GET'])
+@login_required
+def delete_room_api(request, room_code):
+    object = get_object_or_404(Room, room_code=room_code)
+    if object.creator == request.user:
+        object.delete()
+        return Response({"success":True})
+    return Response({"success":False}, 403)
+
+@api_view(['GET'])
+@login_required
+def refresh_code_api(request, room_code):
+    object = get_object_or_404(Room, room_code=room_code)
+    if object.creator == request.user:
+        object.save()
+        return Response({"success":True, "room_code":object.room_code})
+    return Response({"success":False})
+
+@api_view(['GET'])
+@login_required
+def my_room_api(request):
     # https://stackoverflow.com/questions/34043378/how-to-paginate-response-from-function-based-view-of-django-rest-framework
     paginator = CustomPagination()
     queryset = Room.objects.filter(creator=request.user)

@@ -14,6 +14,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
+const room_row = document.getElementById("room-row")
 const message_id = document.getElementById("message")
 const header_token = getCookie('csrftoken')
 
@@ -31,9 +32,6 @@ async function post_data(url, data) {
     })
     return response.json()
 }
-
-
-
 function create_response(text, failed=false) {
     var div = document.createElement("div")
     if(failed){
@@ -145,6 +143,107 @@ function update_user() {
                     //console.log(r[i][0].message)
                     create_response(r[i][0].message, failed=true)
                 }
+            }
+        }
+    })
+}
+function create_my_room_card(room_name, room_code) {
+    var element = `
+    <div class="col-md-3 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">${room_name}
+                            <i class="ml-2 fa fa-files-o" onclick="copy_room_url(this)" room_code="${room_code}"></i>
+                        </h5>
+                        <a href="/chat/room/${room_code}" class="btn btn-dark"><i class="fa fa-paper-plane-o fa-2x"></i></a>
+                        <button class="btn btn-primary" room_code="${room_code}" onclick="refresh_code(this)"><i class="fa fa-refresh fa-2x"></i></button>
+                        <button class="btn btn-danger" room_code="${room_code}" onclick="delete_room(this)"><i class="fa fa-trash-o fa-2x"></i></button>
+                        
+                    </div>
+                </div>
+    `
+    room_row.innerHTML += element
+}
+function copy_room_url(element){
+    var room_code = element.getAttribute("room_code")
+    console.log(room_code)
+    var room_url = `${window.location.host}/chat/room/${room_code}`
+    //element.select.setSelectionRange(0, 9999)
+    navigator.clipboard.writeText(room_url)
+    alert("Copied!")
+}
+async function request_delete_room(room_code) {
+    var response = await fetch('/api/user/delete-room/' + room_code)
+    return response.json()
+}
+
+function delete_room(element) {
+    var room_code = element.getAttribute("room_code")
+    var response = request_delete_room(room_code)
+    response.then((r) =>{
+        if(r.success) {
+            create_response('Deleted', failed=false)
+            element.parentNode.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode.parentNode)
+        }else if(r.detail){
+            create_response('Room not found', failed=true)
+        }else if(!r.success) {
+            create_response('invalid room', failed=true)
+        }
+    })
+    // remove element from room card
+    
+
+}
+function refresh_code(element) {
+    // Function to Refresh Room Code
+    var room_code = element.getAttribute("room_code")
+    var response = get_my_room("/api/user/refresh-code/" + room_code)
+    response.then((r) =>{
+        if(r.detail) {
+            create_response("Invalid room (404)", failed=true)
+        }
+        if(r.success && r.room_code) {
+            create_response("New room code generated!", failed=false)
+            var child_nodes = element.parentNode.children
+            for(i in child_nodes) {
+                if(child_nodes[i].tagName == 'BUTTON') {
+                    child_nodes[i].setAttribute("room_code", r.room_code)
+                }
+                if(child_nodes[i].tagName == 'A') {
+                    child_nodes[i].href = "/chat/room/" + r.room_code
+                }
+                if(child_nodes[i].tagName == 'H5') {
+                    child_nodes[i].children[0].setAttribute("room_code", r.room_code)
+                }
+            }
+        }else{
+            create_response("Invalid response", failed=true)
+        }
+    })
+    
+
+}
+
+function create_next(url) {
+    return 0
+}
+async function get_my_room(custom_url=false) {
+    if(custom_url) {
+        url = custom_url
+    }else{
+        url = '/api/user/my-room'
+    }
+    var response = await fetch(url)
+    return response.json()
+}
+
+
+if(room_row) {
+    var response = get_my_room()   
+    response.then((r)=> {
+        if(r.results.length !== 0){
+            for(i in r.results) {
+                create_my_room_card(r.results[i].room_name, r.results[i].room_code)
             }
         }
     })
