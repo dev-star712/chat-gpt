@@ -125,7 +125,8 @@ STATIC_URL = 'static/'
 STAITC_ROOT = 'static/'
 ASGI_APPLICATION = "app.asgi.application"
 USER_AGENT_BLACKLIST = ['google','bing','yahoo','duckduckgo']
-
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/profile'
 CHANNEL_LAYERS = {
         "default":{
             "BACKEND":"channels_redis.core.RedisChannelLayer",
