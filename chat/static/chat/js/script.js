@@ -25,7 +25,7 @@ function create_room_card(room_name, room_code) {
     div_sm.className = "col-sm-4 mb-2"
 
     var card = document.createElement("div")
-    card.className = "card"
+    card.className = "shadow card bg-white rounded"
 
     var card_body = document.createElement("div")
     card_body.className = "card-body"
@@ -45,6 +45,7 @@ function create_room_card(room_name, room_code) {
     div_sm.appendChild(card)
 
     document.getElementById("card-row").appendChild(div_sm)
+    scroll_bottom()
 
 }
 
@@ -79,7 +80,7 @@ function show_next_rooms() {
 function show_next_button(next_url){
     
     var button = document.createElement("button")
-    button.className = "btn btn-outline-dark"
+    button.className = "btn btn-outline-dark mt-3"
     button.value = next_url
     button.id = "next-button"
     button.innerHTML = "Next"
@@ -106,8 +107,9 @@ function show_room(request) {
         }
           
     })
-}
 
+}
+// 
 if(go_btn) {
     var response_get_room = get_room(false)
     show_room(response_get_room)
@@ -134,7 +136,7 @@ if(go_btn) {
     }
 }
 function make_room(){
-    clean_message()
+    // clean_message()
     var data = get_fields()
     var room_status = document.getElementById("room_status")
     data.is_public = room_status.value

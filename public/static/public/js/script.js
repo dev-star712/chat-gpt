@@ -81,7 +81,11 @@ function clean_inputs() {
         }
     }
 }
-
+function scroll_bottom() {
+    // Scroll to end of body 
+    var row_class = document.querySelector(".row")
+    window.scrollTo(0, row_class.scrollHeight + 1000)
+}
 function register_user() {
     clean_message()
     let data = get_fields()
@@ -151,7 +155,7 @@ function update_user() {
 function create_my_room_card(room_name, room_code) {
     var element = `
     <div class="col-md-3 mt-3">
-                <div class="card">
+                <div class="card shadow rounded">
                     <div class="card-body">
                         <h5 class="card-title mb-3">${room_name}
                             <i class="ml-2 fa fa-files-o" onclick="copy_room_url(this)" room_code="${room_code}"></i>
@@ -164,6 +168,7 @@ function create_my_room_card(room_name, room_code) {
                 </div>
     `
     room_row.innerHTML += element
+    scroll_bottom()
 }
 function copy_room_url(element){
     var room_code = element.getAttribute("room_code")
