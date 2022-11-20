@@ -109,7 +109,7 @@ function register_user() {
 
 }
 function clean_message() {
-    message_id.innerHTML = ''
+    document.getElementById("message").innerHTML = ''
 }
 function change_password() {
     clean_message()

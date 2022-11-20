@@ -134,6 +134,7 @@ if(go_btn) {
     }
 }
 function make_room(){
+    clean_message()
     var data = get_fields()
     var room_status = document.getElementById("room_status")
     data.is_public = room_status.value
