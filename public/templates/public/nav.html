@@ -9,11 +9,20 @@
                 <li class="nav-item">
                     <a href="/" class="nav-link text-dark">Home</a>
                 </li>
+                {% if request.user.is_authenticated %}
                 <li class="nav-item ml-3">
-                    <a href="{% url 'chat:index_chat' %}" class="nav-link text-dark">Room</a>
+                    <a href="{% url 'profile' %} " class="nav-link text-dark">Profile</a>
                 </li>
                 <li class="nav-item ml-3">
+                    <a href="{% url 'my_room' %}" class="nav-link text-dark">Your Room</a>
+                </li>
+                {% else %}
+                <li class="nav-item ml-3">
                     <a href="{% url 'login' %}" class="nav-link text-dark">Login/Register</a>
+                </li>
+                {% endif %}
+                <li class="nav-item ml-3">
+                    <a href="{% url 'chat:index_chat' %}" class="nav-link text-dark">Room</a>
                 </li>
             </ul>
         </div>
