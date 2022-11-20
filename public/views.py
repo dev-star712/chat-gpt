@@ -109,6 +109,7 @@ def refresh_code_api(request, room_code):
 def my_room_api(request):
     # https://stackoverflow.com/questions/34043378/how-to-paginate-response-from-function-based-view-of-django-rest-framework
     paginator = CustomPagination()
+    paginator.page_size = 8
     queryset = Room.objects.filter(creator=request.user)
     result_page = paginator.paginate_queryset(queryset, request)
     serializer = RoomSerializer(result_page, many=True)

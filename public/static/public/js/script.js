@@ -132,6 +132,7 @@ function change_password() {
     })
 }
 function update_user() {
+    clean_message()
     var data = get_fields()
     var z = post_data('/api/user/profile', data)
     z.then((r) => {
@@ -225,7 +226,19 @@ function refresh_code(element) {
 }
 
 function create_next(url) {
-    return 0
+    var next_position = document.getElementById("next-position")
+    var element = `
+    <button type="submit" class="btn btn-outline-dark" value="${url}" onclick="next_my_room(this)">Next</button>
+    `
+    next_position.innerHTML = element
+}
+function next_my_room(element) {
+    var next_url = element.value 
+    var response = get_my_room(next_url)
+    response.then((r) => {
+        show_room_card(r)
+    })
+
 }
 async function get_my_room(custom_url=false) {
     if(custom_url) {
@@ -237,14 +250,22 @@ async function get_my_room(custom_url=false) {
     return response.json()
 }
 
+function show_room_card(r) {
+    if(r.next) {
+        create_next(r.next)
+    }else{
+        document.getElementById("next-position").innerHTML = ""
+    }
+    if(r.results.length !== 0){
+        for(i in r.results) {
+            create_my_room_card(r.results[i].room_name, r.results[i].room_code)
+        }
+    }
+}
 
 if(room_row) {
     var response = get_my_room()   
     response.then((r)=> {
-        if(r.results.length !== 0){
-            for(i in r.results) {
-                create_my_room_card(r.results[i].room_name, r.results[i].room_code)
-            }
-        }
+        show_room_card(r)
     })
 }
