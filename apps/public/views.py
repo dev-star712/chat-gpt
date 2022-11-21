@@ -9,9 +9,9 @@ import json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from app.pagination import CustomPagination
-from chat.models import Room
-from chat.serializers import RoomSerializer
+from chat_app.pagination import CustomPagination
+from apps.chat.models import Room
+from apps.chat.serializers import RoomSerializer
 from . import serializers, forms
 
 class UserViewSets(viewsets.ModelViewSet):

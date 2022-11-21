@@ -6,7 +6,7 @@ from .permissions import RoomPermission
 from . import serializers
 from .models import Room, Chat
 
-from public import serializers as public_serializer
+from apps.public import serializers as public_serializer
 from django.shortcuts import get_object_or_404
 
 

@@ -3,12 +3,19 @@
         <title>{% block title %}Chat App with Django!{% endblock %}</title>
         <meta name="viewport" content="user-scalable=no, width=device-width">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'public/css/styles.css' %}">
         {% block additional_head %} {% endblock %}
     </head>
 <body>
 {% include 'public/nav.html' %}
 {% block content%} {%endblock%}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+    body {
+        font-family: 'Josefin Sans', sans-serif;
+    }
+</style>
 {% load static %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="{% static 'public/js/script.js' %}"></script>

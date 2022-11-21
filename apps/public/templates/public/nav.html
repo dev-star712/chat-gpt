@@ -1,27 +1,27 @@
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand text-dark">Django Chat</a>
+        <a class="navbar-brand text-dark mr-5">Django Chat</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navContent" aria-controls="navContent">
             -
         </button>
         <div class="collapse navbar-collapse" id="navContent">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a href="/" class="nav-link text-dark">Home</a>
                 </li>
                 {% if request.user.is_authenticated %}
-                <li class="nav-item ml-3">
+                <li class="nav-item">
                     <a href="{% url 'profile' %} " class="nav-link text-dark">Profile</a>
                 </li>
-                <li class="nav-item ml-3">
+                <li class="nav-item">
                     <a href="{% url 'my_room' %}" class="nav-link text-dark">Your Room</a>
                 </li>
                 {% else %}
-                <li class="nav-item ml-3">
+                <li class="nav-item">
                     <a href="{% url 'login' %}" class="nav-link text-dark">Login/Register</a>
                 </li>
                 {% endif %}
-                <li class="nav-item ml-3">
+                <li class="nav-item">
                     <a href="{% url 'chat:index_chat' %}" class="nav-link text-dark">Room</a>
                 </li>
             </ul>

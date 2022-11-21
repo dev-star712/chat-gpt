@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'channels',
     'rest_framework',
-    'app',
-    'public',
-    'chat'
+    'chat_app',
+    'apps.public',
+    'apps.chat'
 ]
 
 MIDDLEWARE = [
@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'app.urls'
+ROOT_URLCONF = 'chat_app.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app.wsgi.application'
+WSGI_APPLICATION = 'chat_app.wsgi.application'
 
 
 # Database
@@ -123,7 +123,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STAITC_ROOT = 'static/'
-ASGI_APPLICATION = "app.asgi.application"
+ASGI_APPLICATION = "chat_app.asgi.application"
 USER_AGENT_BLACKLIST = ['google','bing','yahoo','duckduckgo']
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/profile'
@@ -137,7 +137,7 @@ CHANNEL_LAYERS = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS':'app.pagination.CustomPagination',
+    'DEFAULT_PAGINATION_CLASS':'chat_app.pagination.CustomPagination',
     'PAGE_SIZE':9
 }
 
