@@ -43,6 +43,7 @@ class Chat(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)
     from_user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(null=False)
+    created = models.DateTimeField(auto_now_add=True, null=True)
     
     def __repr__(self):
         return '<from_user:{}'.format(self.from_user.username)

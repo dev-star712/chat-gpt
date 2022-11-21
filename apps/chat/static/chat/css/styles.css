@@ -1,3 +1,8 @@
+:root {
+    --text-medium: 16px;
+    --text-small: 14px;
+    --text-x-small: 12px;
+}
 #chat {
     position: relative;
     overflow: auto;
@@ -100,7 +105,7 @@
 
 .chat .chat-content .message div p:nth-child(3) {
     text-align: right;
-    font-size: var(--text-x-small);
+    font-size: 12px;
 }
 
 .chat-input {
