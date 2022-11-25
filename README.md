@@ -60,23 +60,7 @@ Chat Section
 
 Chat template i got from https://github.com/pamekasancode/webchat-js/tree/master (thx a lot for this guy)
 
-![Screenshot_20221119_013220](https://user-images.githubusercontent.com/70421698/202837981-724bcbc2-7374-4cf8-af66-8c76b2f1dd70.png)
-
-
-My Room page 
-![Screenshot_20221120_102733](https://user-images.githubusercontent.com/70421698/202881318-d9425f57-71e6-4359-b7e1-6309f02a22f1.png)
-
-
-Room Chat
-![Screenshot_20221117_055340](https://user-images.githubusercontent.com/70421698/202428160-357fb7fe-0a11-4e56-9621-78257ff5428c.png)
-
-Create Room
-![Screenshot_20221117_055436](https://user-images.githubusercontent.com/70421698/202428150-b9d92bd2-07b9-44d7-8db1-3256103a5266.png)
-
-
-Login Page  
-![login](https://user-images.githubusercontent.com/70421698/202155809-e9392aaf-5651-487b-85b5-da8940fee6ba.png)
-
-
-Register Page  
-![register](https://user-images.githubusercontent.com/70421698/202155814-c908c8c7-ee36-467c-b5c8-d45803a34b0b.png)
+![Screenshot 2022-11-25 152320](https://user-images.githubusercontent.com/70421698/203936238-2ef6289e-9ffa-46b5-b8c3-866601eb3baa.png)
+![Screenshot 2022-11-25 152358](https://user-images.githubusercontent.com/70421698/203936248-02c64ef6-d633-4ea3-9c52-967f046f9fef.png)
+![Screenshot 2022-11-25 152419](https://user-images.githubusercontent.com/70421698/203936255-b64e2a1b-032a-4eb6-ba8c-0ed0c7d032b8.png)
+![Screenshot 2022-11-25 152441](https://user-images.githubusercontent.com/70421698/203936261-994d7eed-614b-4213-b29c-393721c5b264.png)
