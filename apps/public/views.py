@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 
+from apps.chat.permissions import RoomPermission
 from rest_framework import viewsets
 import json
 from rest_framework.decorators import api_view
@@ -13,6 +14,8 @@ from chat_app.pagination import CustomPagination
 from apps.chat.models import Room
 from apps.chat.serializers import RoomSerializer
 from . import serializers, forms
+from rest_framework import serializers as rest_serializer
+from rest_framework.views import APIView
 
 class UserViewSets(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -115,7 +118,46 @@ def my_room_api(request):
     serializer = RoomSerializer(result_page, many=True)
     return paginator.get_paginated_response(serializer.data)
 
+@login_required
+def room_settings(request, room_code):
+    
+    object = get_object_or_404(Room, room_code=room_code)
 
+    if request.user != object.creator:
+        return redirect('profile')
+
+    serializer = RoomSerializer(instance=object)
+    
+    # manipulate data render 
+
+    users = object.chat_set.all()
+
+    if len(users) != 0:
+        users_id = [a.get('from_user') for a in users.values('from_user') if a.get('from_user') != request.user.pk]
+    else:
+        users_id = [request.user.pk]
+    
+    child = User.objects.filter(pk__in=users_id) # change list to QuerySet
+    child_field = rest_serializer.PrimaryKeyRelatedField(queryset=child)
+    serializer.fields['blocked_users'] = rest_serializer.ManyRelatedField(child_relation=child_field)
+    
+    return render(request, 'public/room-settings.html', {'serializer':serializer,'pk':object.pk})
+
+class RoomSettingApi(APIView):
+    permission_classes = [RoomPermission]
+
+    def post(self, request):
+        object = self.get_object()
+        serializer = RoomSerializer(instance=object, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"success":True})
+    
+    def get_object(self):
+        pk = self.request.data.get('pk')
+        object = get_object_or_404(Room, pk=pk)
+        return object 
+    
 def login_view(request):
     serializer = serializers.LoginSerializer()
     return render(request, 'public/login.html', {'serializer':serializer})

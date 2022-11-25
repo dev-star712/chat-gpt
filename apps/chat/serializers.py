@@ -1,14 +1,33 @@
 from rest_framework import serializers
+from rest_framework.utils import model_meta
 
 from .models import Room, Chat
 
 class RoomSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Room 
         fields = "__all__"
         lookup_field = "room_code"
-        extra_kwargs = {'room_code':{'read_only':True}}
+        read_only_fields = ['room_code','creator']
+        extra_kwargs = {'blocked_users':{'required':False, 'allow_null':True, 'write_only':True}}
+    
+    def update(self, instance, validated_data):
+        info = model_meta.get_field_info(instance)
+
+        m2m_fields = []
+        for attr, value in validated_data.items():
+            if attr in info.relations and info.relations[attr].to_many:
+                m2m_fields.append((attr, value))
+            else:
+                setattr(instance, attr, value)
+
+        instance.save(room_code=True)
+
+        for attr, value in m2m_fields:
+            field = getattr(instance, attr)
+            field.set(value)
+
+        return instance
 
 class ChatSerializer(serializers.ModelSerializer):
     from_user = serializers.CharField(source="from_user.username")

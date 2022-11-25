@@ -267,6 +267,42 @@ function show_room_card(r) {
         }
     }
 }
+function get_selected() {
+    var select = document.querySelectorAll("option:checked")
+    var result = {}
+    for(i in select) {
+        var parent_node = select[i].parentNode
+        if(parent_node) {
+            if(!result[parent_node.name]) { 
+
+                result[parent_node.name] = []
+            }
+            if(parent_node.hasAttribute('multiple')){
+                result[parent_node.name].push(select[i].value)
+            }else{
+                result[parent_node.name] = select[i].value
+            }
+        }
+    }
+    return result 
+}
+function room_setting() {
+    var data = get_fields()
+    var selected = get_selected()
+    
+    data['is_public'] = selected.is_public
+    data['blocked_users'] = selected.blocked_users
+
+    var response = post_data('/api/user/room-setting', data)
+
+    response.then((y)=>{
+        if(y.success) {
+            create_response("updated")
+        }
+    })
+    
+}
+
 
 if(room_row) {
     var response = get_my_room()   

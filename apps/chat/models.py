@@ -13,9 +13,11 @@ class Room(models.Model):
     room_name = models.CharField(max_length=255)
     is_public = models.IntegerField(choices=ROOM_VISIBILITY, default=1)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    blocked_users = models.ManyToManyField(User, related_name='blocked_users_set')
 
-    def save(self, *args, **kwargs):
-        self.room_code = self.__generate_code()
+    def save(self, room_code=True, *args, **kwargs):
+        if not room_code:
+            self.room_code = self.__generate_code()
         super().save(*args, **kwargs)
     
     def __repr__(self):

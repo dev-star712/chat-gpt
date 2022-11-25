@@ -2,6 +2,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import Chat , Room , Visitor
 from django.contrib.auth.models import User
+from asgiref.sync import sync_to_async, async_to_sync
 
 import json, html
     
@@ -19,7 +20,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.user = await self.get_user()
         else:
             self.user = None
-        
+
         await self.channel_layer.group_add(self.group_room_code, self.channel_name)
         
         await self.channel_layer.group_send(
@@ -30,9 +31,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "sender":self.sender
             }
         )
-        
+
         await self.accept()
-    
+
     async def disconnect(self, code):
         await self.channel_layer.group_send(
             self.group_room_code,
@@ -45,22 +46,28 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard(self.group_room_code, self.channel_name)
     
     async def receive(self, text_data=None, bytes_data=None):
-        
         json_data = json.loads(text_data)
+        
         message = json_data.get('message')
 
-        saved = await self.save_message(message)
-        
-        await self.channel_layer.group_send(
-            self.group_room_code, 
-            {
-                "type":"chat.message",
-                "message":message,
-                "sender":self.sender,
-                "date":str(saved.created)
-            }
-        )
+        if message:
+            saved = await self.save_message(message)
+            
+            await self.channel_layer.group_send(
+                self.group_room_code, 
+                {
+                    "type":"chat.message",
+                    "message":message,
+                    "sender":self.sender,
+                    "date":str(saved.created)
+                }
+            )
     async def chat_message(self, text_data):
+        
+        is_blocked = await self.get_blocked()
+        if is_blocked:
+            return 0
+        
         message = html.escape(text_data.get("message"))
         sender = text_data.get('sender')
         date = text_data.get('date')
@@ -86,6 +93,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_user(self):
         return User.objects.get(username=self.sender)
+    
+    @database_sync_to_async
+    def get_blocked(self):
+        if self.user and self.room_model:
+            query = self.room_model.blocked_users.filter(username=self.user)
+            return any(query)
 
 class NotifConsumer(AsyncWebsocketConsumer):
     async def connect(self):

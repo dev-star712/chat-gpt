@@ -8,6 +8,7 @@ app_name = 'public'
 urlpatterns = [
     path('register',views.register_api, name='api_register'),
     path('login', views.login_api),
+    path('room-setting', views.RoomSettingApi.as_view(), name='room_setting_api'),
     path('refresh-code/<str:room_code>', views.refresh_code_api, name='refresh_room_api'),
     path('getMe', views.getMe, name='get_me'),
     path('my-room', views.my_room_api, name='my_room'),

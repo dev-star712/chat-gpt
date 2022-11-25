@@ -11,6 +11,7 @@ urlpatterns = [
     path('login', apps.public.views.login_view, name='login'),
     path('register', apps.public.views.register_view, name='register'),
     path('profile/my-room', apps.public.views.my_room, name='my_room'),
+    path('profile/room/<str:room_code>/setting', apps.public.views.room_settings, name='room_settings'),
     path('chat/', include('apps.chat.urls'), name='chat'),
     path('api/user/', include('apps.public.api_urls')),
     path('api/chat/', include('apps.chat.api_urls')),
