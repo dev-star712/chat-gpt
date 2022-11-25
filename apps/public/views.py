@@ -135,12 +135,12 @@ def room_settings(request, room_code):
     if len(users) != 0:
         users_id = [a.get('from_user') for a in users.values('from_user') if a.get('from_user') != request.user.pk]
     else:
-        users_id = [request.user.pk]
+        users_id = []
     
     child = User.objects.filter(pk__in=users_id) # change list to QuerySet
     child_field = rest_serializer.PrimaryKeyRelatedField(queryset=child)
-    serializer.fields['blocked_users'] = rest_serializer.ManyRelatedField(child_relation=child_field)
     
+    serializer.fields['blocked_users'] = rest_serializer.ManyRelatedField(child_relation=child_field)
     return render(request, 'public/room-settings.html', {'serializer':serializer,'pk':object.pk})
 
 class RoomSettingApi(APIView):

@@ -9,7 +9,7 @@ class RoomSerializer(serializers.ModelSerializer):
         fields = "__all__"
         lookup_field = "room_code"
         read_only_fields = ['room_code','creator']
-        extra_kwargs = {'blocked_users':{'required':False, 'allow_null':True, 'write_only':True}}
+        extra_kwargs = {k:{'required':False, 'allow_null':True, 'write_only':True} for k in ['active_bots','blocked_users']}
     
     def update(self, instance, validated_data):
         info = model_meta.get_field_info(instance)

@@ -284,6 +284,7 @@ function get_selected() {
             }
         }
     }
+    console.log(result)
     return result 
 }
 function room_setting() {
@@ -292,6 +293,7 @@ function room_setting() {
     
     data['is_public'] = selected.is_public
     data['blocked_users'] = selected.blocked_users
+    data['active_bots'] = selected.active_bots
 
     var response = post_data('/api/user/room-setting', data)
 

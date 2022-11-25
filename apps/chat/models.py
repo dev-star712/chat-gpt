@@ -1,7 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User 
-import random, string 
+import random, string , os 
 from django.conf import settings
+
+class Bot(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    file_name = models.CharField(max_length=33)
+    message_handler = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        return self.description or self.file_name
+    
+    def save(self, *args, **kwargs):
+        dirname = os.path.dirname(self.file_name)
+        if dirname:
+            self.file_name = self.file_name.replace(dirname)
+        return super().save(*args, **kwargs)
 
 class Room(models.Model):
     ROOM_VISIBILITY = (
@@ -14,6 +29,7 @@ class Room(models.Model):
     is_public = models.IntegerField(choices=ROOM_VISIBILITY, default=1)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     blocked_users = models.ManyToManyField(User, related_name='blocked_users_set')
+    active_bots = models.ManyToManyField(Bot) 
 
     def save(self, room_code=True, *args, **kwargs):
         if not room_code:
@@ -49,3 +65,4 @@ class Chat(models.Model):
     
     def __repr__(self):
         return '<from_user:{}'.format(self.from_user.username)
+
