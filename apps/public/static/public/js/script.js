@@ -161,6 +161,7 @@ function create_my_room_card(room_name, room_code) {
                             <i class="ml-2 fa fa-files-o" onclick="copy_room_url(this)" room_code="${room_code}"></i>
                         </h5>
                         <a href="/chat/room/${room_code}" class="btn btn-dark"><i class="fa fa-paper-plane-o fa-2x"></i></a>
+                        <a href='/profile/room/${room_code}/setting' class="btn btn-dark"><i class="fa fa-cog fa-2x"></i></a> 
                         <button class="btn btn-primary" room_code="${room_code}" onclick="refresh_code(this)"><i class="fa fa-refresh fa-2x"></i></button>
                         <button class="btn btn-danger" room_code="${room_code}" onclick="delete_room(this)"><i class="fa fa-trash-o fa-2x"></i></button>
                         
