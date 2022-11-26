@@ -48,10 +48,36 @@ You can run the server by using command
 ./manage.py runserver
 ```
 
+Create your bot!
+```
+./manage.py create_bot
+
+Username for your bot : ganteng
+File name to generate : bot_ganteng.py
+Bot Description : Test
+Message Handler (e.g : /hello,/fush,/foo) : /hello,/world
+File created /home/vvvv/project/app/bots/bot_ganteng.py
+User for bot created!
+
+```
+The command will automatically create a user for the bot, and save a file to execute bot commands
+
+
+You can customize the response bot in the file that was created
+```python
+
+async def execute_command(argument, group_room_code):
+    return "Change this response!"
+    
+```
+
+Activate your bot in room settings!
+
 ### Features
 - Login and Register
 - Any logged in user can create a room
 - Authenticated user can generate new room code, and delete their own room
+- Basic Bot feature
 - Messages saved to database
 - Messages from not logged in user will no saved to database
 
