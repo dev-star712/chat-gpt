@@ -2,10 +2,9 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import Chat , Room , Visitor
 from django.contrib.auth.models import User
-from django.db.models.query import QuerySet
 from bots import BotHandler
-from asgiref.sync import sync_to_async, async_to_sync
-import json, html
+from asgiref.sync import sync_to_async
+import json, html, asyncio
     
 class ChatConsumer(AsyncWebsocketConsumer):
 
@@ -17,7 +16,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         self.room_model = await self.get_room_model()
         self.bots = await self.active_bots()
-        self.bothandler = await self.bot_handler()
+        self.bothandler = BotHandler(self.bots, self.group_room_code)
         
         if self.sender != "AnonymousUser":
             self.user = await self.get_user()
@@ -54,35 +53,43 @@ class ChatConsumer(AsyncWebsocketConsumer):
         json_data = json.loads(text_data)
         
         message = json_data.get('message')
-        bot = self.bothandler.get_response(message)
-
+    
+        saved = await self.save_message(message)
+        await self.channel_layer.group_send(
+            self.group_room_code, 
+            {
+                "type":"chat.message",
+                "message":message,
+                "sender":self.sender,
+                "date":str(saved.created)
+            }
+        )
         
-        if message:
-            saved = await self.save_message(message)
-            await self.channel_layer.group_send(
-                self.group_room_code, 
-                {
-                    "type":"chat.message",
-                    "message":message,
-                    "sender":self.sender,
-                    "date":str(saved.created)
-                }
-            )
+        bot = await self.bothandler.get_response(message)
 
         if bot:
             bot_object, response = bot 
             user = await self.get_bot_user(bot_object)
-            saved = await self.save_message(response, user=user)
+            if response:
+                saved = await self.save_message(response, user=user)
             await self.channel_layer.group_send(
                 self.group_room_code,
                 {
-                    "type":"chat.message",
+                    "type":"bot.response",
                     "message":str(response),
                     "sender":str(user),
                     "date":str(saved.created)
                 }
 
             )
+    
+    async def bot_response(self, text_data):
+        message = text_data.get("message")
+        sender = text_data.get("sender")
+        date = text_data.get('date')
+
+        await self.send(text_data=json.dumps({"message":message, "sender":sender, "date":date}))
+
     async def chat_message(self, text_data):
         
         is_blocked = await self.get_blocked()
@@ -131,7 +138,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     
     @sync_to_async
     def bot_handler(self):
-        return BotHandler(self.bots)
+        return BotHandler(self.bots, self.group_room_code)
     
     @database_sync_to_async
     def get_bot_user(self, bot):
