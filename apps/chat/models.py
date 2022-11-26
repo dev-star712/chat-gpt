@@ -15,7 +15,7 @@ class Bot(models.Model):
     def save(self, *args, **kwargs):
         dirname = os.path.dirname(self.file_name)
         if dirname:
-            self.file_name = self.file_name.replace(dirname)
+            self.file_name = self.file_name.replace(dirname,'').replace('/','')
         return super().save(*args, **kwargs)
 
 class Room(models.Model):

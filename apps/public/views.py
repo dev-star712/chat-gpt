@@ -6,12 +6,12 @@ from django.contrib.auth.models import User
 
 from apps.chat.permissions import RoomPermission
 from rest_framework import viewsets
-import json
+import json, itertools
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from chat_app.pagination import CustomPagination
-from apps.chat.models import Room
+from apps.chat.models import Room, Bot 
 from apps.chat.serializers import RoomSerializer
 from . import serializers, forms
 from rest_framework import serializers as rest_serializer
@@ -137,9 +137,15 @@ def room_settings(request, room_code):
     else:
         users_id = []
     
+    all_bots = Bot.objects.all()
+    bots_in_room = object.active_bots.all()
+    merger = bots_in_room.union(all_bots, all=True)
+
     child = User.objects.filter(pk__in=users_id) # change list to QuerySet
     child_field = rest_serializer.PrimaryKeyRelatedField(queryset=child)
-    
+    child_bot = rest_serializer.PrimaryKeyRelatedField(queryset=merger)
+
+    serializer.fields['active_bots'] = rest_serializer.ManyRelatedField(child_relation=child_bot)    
     serializer.fields['blocked_users'] = rest_serializer.ManyRelatedField(child_relation=child_field)
     return render(request, 'public/room-settings.html', {'serializer':serializer,'pk':object.pk})
 
