@@ -28,7 +28,12 @@ class RoomSerializer(serializers.ModelSerializer):
             field.set(value)
 
         return instance
-
+    
+    def create(self, validated_data):
+        room = Room(**validated_data)
+        room.save(room_code=False)
+        return room 
+    
 class ChatSerializer(serializers.ModelSerializer):
     from_user = serializers.CharField(source="from_user.username")
 
