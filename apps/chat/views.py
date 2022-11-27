@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from rest_framework import viewsets , decorators
+from rest_framework import viewsets
+from datetime import datetime, timedelta
 from rest_framework.response import Response
 
 from .permissions import RoomPermission
@@ -37,11 +38,9 @@ class RoomViewSets(viewsets.ModelViewSet):
         lookup_field = self.lookup_field or self.lookup_url_kwarg
 
         lookup_kwargs = {lookup_field: self.kwargs[lookup_field]}
-
         _ = get_object_or_404(Room, **lookup_kwargs)
 
-        queryset = Chat.objects.filter(room__room_code=self.kwargs[lookup_field])
-        
+        queryset = Chat.objects.filter(room__room_code=self.kwargs[lookup_field], created__range=(datetime.now() - timedelta(days=5), datetime.now()))
         serializer = serializers.ChatSerializer(queryset, many=True)
         return Response(serializer.data)
 
