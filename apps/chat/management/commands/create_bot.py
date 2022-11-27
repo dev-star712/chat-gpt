@@ -29,7 +29,7 @@ class Command(BaseCommand):
                 return 
     
         file_content = """
-async def execute_command(argument, group_room_code):
+async def execute_command(argument: list, group_room_code: str):
     return "Change this response!"
 
         """

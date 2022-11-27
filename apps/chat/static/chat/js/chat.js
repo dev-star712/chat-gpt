@@ -42,16 +42,24 @@ notif_socket.onopen = function(n) {
 }
 function create_formatted_date(d) {
     var date = new Date(d)
-    var formatted_date = `${date.getHours()}:${date.getSeconds()}`
+    var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+    var minutes = date.getMilliseconds() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+    var formatted_date = `${hours}:${minutes}`
     return formatted_date
 }
 chatSocket.onopen = function() {
     var chat_data = get_chats()
+    
     chat_data.then((r)=>{
+        var loadingp = document.getElementById("loadingp")
+        loadingp.innerHTML = ""
+
         for(var i in r) {
             var formatted_date = create_formatted_date(r[i].created)
             create_chat_box(r[i].text, r[i].from_user, formatted_date)
         }
+    }).finally(data => {
+        loadingp.style.color = "red"
     })
 }
 function create_chat_box(message, sender, formatted_date) {
@@ -101,7 +109,5 @@ chatSocket.onmessage = function(m) {
         var date = new Date()
     }
     var formatted_date = create_formatted_date(date)
-
-
     create_chat_box(json_parser.message, json_parser.sender, formatted_date)
 }
