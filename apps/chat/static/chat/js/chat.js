@@ -43,7 +43,7 @@ notif_socket.onopen = function(n) {
 function create_formatted_date(d) {
     var date = new Date(d)
     var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
-    var minutes = date.getMilliseconds() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+    var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
     var formatted_date = `${hours}:${minutes}`
     return formatted_date
 }
