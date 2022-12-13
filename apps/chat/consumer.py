@@ -3,8 +3,10 @@ from channels.db import database_sync_to_async
 from .models import Chat , Room , Visitor
 from django.contrib.auth.models import User
 from bots import BotHandler
+from datetime import datetime
+
 from asgiref.sync import sync_to_async
-import json, html, asyncio
+import json, html, pytz
     
 class ChatConsumer(AsyncWebsocketConsumer):
 
@@ -55,13 +57,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = json_data.get('message')
     
         saved = await self.save_message(message)
+        if saved: 
+            date_created = str(saved.created)
+        else:
+            date_created = str(datetime.now(tz=pytz.UTC))
+        
         await self.channel_layer.group_send(
             self.group_room_code, 
             {
                 "type":"chat.message",
                 "message":message,
                 "sender":self.sender,
-                "date":str(saved.created)
+                "date":date_created
             }
         )
         
