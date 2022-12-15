@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import os 
+import os , dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-8ba6j&1=uxhq!i%*&l@as$ab4_b@efk&yddg^$geq_orh8=7)s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'chat_app.urls'
@@ -79,13 +80,17 @@ WSGI_APPLICATION = 'chat_app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if not DEBUG and os.environ.get('DATABASE_URL'):
+    DATABASES = { 
+        'default':dj_database_url.config('DATABASE_URL')
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -123,7 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 BOT_DIR = os.path.join(BASE_DIR, 'bots')
 STATIC_URL = 'static/'
-STAITC_ROOT = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 ASGI_APPLICATION = "chat_app.asgi.application"
 USER_AGENT_BLACKLIST = ['google','bing','yahoo','duckduckgo']
 LOGIN_URL = '/login'
@@ -146,3 +151,4 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
