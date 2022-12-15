@@ -10,6 +10,7 @@ from .models import Room, Chat
 from apps.public import serializers as public_serializer
 from django.shortcuts import get_object_or_404
 
+import html
 
 class RoomViewSets(viewsets.ModelViewSet):
     
@@ -20,9 +21,11 @@ class RoomViewSets(viewsets.ModelViewSet):
 
 
     def perform_create(self, serializer):
+        room_name = serializer.validated_data.get('room_name')
         
         serializer.save(creator=self.request.user)
-        
+        serializer.save(room_name=html.escape(room_name))
+
         return serializer
     
     def create(self, request, *args, **kwargs):
@@ -40,7 +43,8 @@ class RoomViewSets(viewsets.ModelViewSet):
         lookup_kwargs = {lookup_field: self.kwargs[lookup_field]}
         _ = get_object_or_404(Room, **lookup_kwargs)
 
-        queryset = Chat.objects.filter(room__room_code=self.kwargs[lookup_field], created__range=(datetime.now() - timedelta(days=5), datetime.now()))
+        queryset = Chat.objects.filter(room__room_code=self.kwargs[lookup_field], 
+                                       created__range=(datetime.now() - timedelta(days=5), datetime.now()))
         serializer = serializers.ChatSerializer(queryset, many=True)
         return Response(serializer.data)
 
