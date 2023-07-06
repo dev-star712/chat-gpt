@@ -11,9 +11,9 @@ Group chat app built with Django, django-channels, and rest_framework
     - [Screenshots](#screenshots)
 
 ### Installation
-- Clone this repository https://github.com/gibran-abdillah/chat-app
+- Clone this repository https://github.com/AI-General/chat-app
 ```sh
-git clone https://github.com/gibran-abdillah/chat-app
+git clone https://github.com/AI-General/chat-app
 cd chat-app
 ```
 - Activate the local environment
